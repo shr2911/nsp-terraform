@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+parameters {
+        string(name: 'terraform_path', defaultValue: 'terraform/curated/ocpr_cdc/gem\nterraform/raw/ocpr/gem/sink/consumer\nterraform/raw/ocpr/gem/source/http\n', description: 'Enter a terraform path, like terraform/domains/dcus/ocpr')
+  }
+    stages {
+      stage("Terraform Init") {
+        when {
+          expression {
+              env.BRANCH_NAME == "k9-version"
+          }
+        }
+        steps {
+            script {
+            def tfHome = tool name: 'Terraform'
+            env.PATH = "${tfHome}:${env.PATH}"
+            echo 'terraform init'
+                terraformAction("init")
+            }
+        }
+   }
+       stage("The Terraform Validate") {
+         steps {
+              echo "terraform validate"
+             terraformAction("validate")
+        }
+}
+        stage("Terraform Plan") {
+          steps {
+                echo "terraform plan"
+              terraformAction("plan")
+         }
+}
+         stage("Terraform Apply") {
+           steps {
+              echo "terraform apply"
+               terraformAction("apply -auto-approve")
+          }
+     }
+  }
+}
+def terraformAction(String tfAction){
+    sh "terraform ${tfAction} $terraform_path/"
+}
