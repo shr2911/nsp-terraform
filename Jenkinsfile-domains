@@ -1,14 +1,13 @@
 pipeline {
     agent any
 parameters {
-       //string(name: 'terraform_path', defaultValue: 'terraform/curated/ocpr_cdc/gem\nterraform/raw/ocpr/gem/sink/consumer\nterraform/raw/ocpr/gem/source/http\n', description: 'Enter a terraform path, like terraform/domains/dcus/ocpr')
         choice(name: 'terraform_path', choices: "terraform/curated/ocpr_cdc/gem\nterraform/raw/ocpr/gem/sink/consumer\nterraform/raw/ocpr/gem/source/http", description: "Enter a terraform path, like terraform/domains/dcus/ocpr")
   }
     stages {
       stage("Terraform Init") {
         when {
           expression {
-              env.BRANCH_NAME == "master"
+              BRANCH_NAME == "master" || BRANCH_NAME == "master"
           }
         }
         steps {
