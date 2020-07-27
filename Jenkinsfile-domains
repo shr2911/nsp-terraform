@@ -8,7 +8,7 @@ parameters {
       stage("Terraform Init") {
         when {
           expression {
-              env.BRANCH_NAME == "k9-version"
+              env.BRANCH_NAME == "master"
           }
         }
         steps {
