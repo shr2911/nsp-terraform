@@ -41,5 +41,6 @@ parameters {
   }
 }
 def terraformAction(String tfAction){
+    cd /Users/shruthi.ss/.jenkins/workspace/my-terraform-pipeline1_master
     sh "terraform ${tfAction} $terraform_path/"
 }
