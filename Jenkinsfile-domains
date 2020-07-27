@@ -41,8 +41,6 @@ parameters {
   }
 }
 def terraformAction(String tfAction){
-    pwd
-    echo ${tfHome}
-    echo ${env.PATH}
+    sh pwd
     sh "terraform ${tfAction} $terraform_path/"
 }
