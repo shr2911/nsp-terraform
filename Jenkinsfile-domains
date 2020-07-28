@@ -40,5 +40,7 @@ parameters {
   }
 }
 def terraformAction(String tfAction){
-    sh "terraform ${tfAction} $terraform_path/"
+   if tfAction == init
+    echo "Hello World"
+   sh "terraform ${tfAction} $terraform_path/"
 }
